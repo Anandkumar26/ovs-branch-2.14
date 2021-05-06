@@ -1,4 +1,5 @@
 version: 1.0.{build}
+image: Visual Studio 2019
 branches:
   only:
   - branch-2.14
@@ -9,18 +10,30 @@ init:
 - ps: $env:PATH ="C:\Python37;"+$env:PATH
 - ps: New-Item -Type HardLink -Path "C:\Python37\python3.exe" -Value "C:\Python37\python.exe"
 - ps: >-
-    $source = "https://slproweb.com/download/Win64OpenSSL-1_0_2u.exe"
-    $destination = "C:\ovs-build-downloads\Win64OpenSSL-1_0_2u.exe"
-    Invoke-WebRequest $source -OutFile $destination
     mkdir C:\ovs-build-downloads
+
     mkdir C:\openvswitch\driver
+
+    $source = "https://slproweb.com/download/Win64OpenSSL-1_0_2u.exe"
+
+    $destination = "C:\ovs-build-downloads\Win64OpenSSL-1_0_2u.exe"
+
+    Invoke-WebRequest $source -OutFile $destination
+
     cd C:\ovs-build-downloads
+
     .\Win64OpenSSL-1_0_2u.exe /silent /verysilent /sp- /suppressmsgboxes
+
     Start-Sleep -s 30
+
     cd C:\openvswitch
+
     git clone https://git.code.sf.net/p/pthreads4w/code c:\pthreads4w-code
+
     python3 -m pip install pypiwin32 --disable-pip-version-check
+
     cd C:\openvswitch_compile
+
 build_script:
 - '"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"'
 - C:\MinGW\msys\1.0\bin\bash -lc "echo \"C:/MinGW /mingw\" > /etc/fstab"
