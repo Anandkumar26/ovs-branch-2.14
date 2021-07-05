@@ -4,6 +4,7 @@ branches:
   only:
   - branch-2.14
 configuration:
+  - Debug
   - Release
 clone_folder: C:\openvswitch_compile
 init:
